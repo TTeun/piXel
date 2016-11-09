@@ -1,10 +1,5 @@
 #include "myframe.h"
 
-MyFrame::~MyFrame()
-{
-	delete d_drawPane;
-}
-
 enum
 {
 	ID_HELLO,
@@ -12,11 +7,6 @@ enum
 	ID_UNDO,
 	ID_REDO
 };
-
-inline wxImage MyFrame::imageByVal()
-{
-	return d_drawPane->imageByVal();
-}
 
 MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
                  wxString file,
@@ -58,4 +48,9 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
 	SetMenuBar( menuBar );
 	CreateStatusBar();
 	SetStatusText( "Welcome to wxWidgets!" );
+}
+
+MyFrame::~MyFrame()
+{
+	delete d_drawPane;
 }

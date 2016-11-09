@@ -1,15 +1,4 @@
-#include <wx/wx.h>
-#include <wx/sizer.h>
-#include <wx/image.h>
-#include "wxImagePanel/wximagepanel.h"
-#include "MyFrame/myframe.h"
-
-class MyApp : public wxApp
-{
-	MyFrame *frame;
-public:
-	bool OnInit();
-};
+#include "myapp.h"
 
 bool MyApp::OnInit()
 {
@@ -28,5 +17,3 @@ bool MyApp::OnInit()
 	frame->Show();
 	return true;
 }
-
-IMPLEMENT_APP(MyApp);

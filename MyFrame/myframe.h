@@ -47,6 +47,11 @@ public:
 	void update();
 };
 
+inline wxImage MyFrame::imageByVal()
+{
+	return d_drawPane->imageByVal();
+}
+
 inline void MyFrame::setImage(wxImage *newImage)
 {
 	d_drawPane->setImage(newImage);

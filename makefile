@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS= -I/home/teun/Downloads/wxWidgets-3.0.2/include `wx-config --cxxflags --libs` -std=c++14 -Wall
+CFLAGS = `wx-config --cxxflags --libs` -std=c++14 -Wall -Werror -Wfatal-errors
 
 all:
-	$(CC) hello.cc wxImagePanel/*.cc MyFrame/*.cc $(CFLAGS)
+	$(CC) main.cc MyApp/*.cc wxImagePanel/*.cc MyFrame/*.cc $(CFLAGS)
