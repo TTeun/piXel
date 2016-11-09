@@ -16,12 +16,13 @@ bool MyApp::OnInit()
 	// make sure to call this first
 	wxInitAllImageHandlers();
 	wxBoxSizer *sizer = new wxBoxSizer(wxHORIZONTAL);
-	frame = new MyFrame(wxT("Hello wxDC"), wxPoint(50, 50), wxSize(800, 600));
+	frame =
+	    new MyFrame(wxT("Hello wxDC"), wxPoint(50, 50), wxSize(800, 600), wxT(
+	                    "valve.jpg"), wxBITMAP_TYPE_JPEG);
 
-	// then simply create like this
-	frame->drawPane = new wxImagePanel( frame, wxT("valve.jpg"), wxBITMAP_TYPE_JPEG);
-	wxSize imSize = frame->drawPane->size();
-	sizer->Add(frame->drawPane, 1, wxEXPAND);
+	frame->actionList->addAction(frame->imageByVal());
+
+	sizer->Add(frame->drawPane(), 1, wxEXPAND);
 
 	frame->SetSizer(sizer);
 	frame->Show();

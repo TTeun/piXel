@@ -9,36 +9,35 @@
 
 class wxImagePanel : public wxPanel
 {
-	wxImage d_image;
-	wxImage d_gray;
-	wxImage const d_orig;
+	wxImage *d_image;
 
 public:
 	wxImagePanel(wxFrame * parent, wxString file, wxBitmapType format);
-
+	void setImage(wxImage *newImage)
+	{
+		d_image = newImage;
+	}
+	wxImage *image()
+	{
+		return d_image;
+	}
+	wxImage imageByVal()
+	{
+		return *d_image;
+	}
 	void paintEvent(wxPaintEvent &evt);
 	void paintNow();
 
-	void render(wxDC&dc);
+	void render(wxDC &dc);
 	wxSize size();
-	enum Mode { GRAY, ORIG, IMAGE };
-	void setMode(Mode mode);
-private:
-	Mode d_mode = ORIG;
 
 	DECLARE_EVENT_TABLE()
 };
 
 inline wxSize wxImagePanel::size()
 {
-	return d_image.GetSize();
+	return d_image->GetSize();
 }
-
-inline void wxImagePanel::setMode(Mode mode)
-{
-	d_mode = mode;
-}
-
 
 BEGIN_EVENT_TABLE(wxImagePanel, wxPanel)
 EVT_PAINT(wxImagePanel::paintEvent)
@@ -46,11 +45,8 @@ END_EVENT_TABLE();
 
 wxImagePanel::wxImagePanel(wxFrame*parent, wxString file, wxBitmapType format) :
 	wxPanel(parent),
-	d_orig(file, format),
-	d_image(file, format)
-{
-	d_gray = d_image.ConvertToGreyscale();
-}
+	d_image(new wxImage(file, format))
+{}
 
 void wxImagePanel::paintEvent(wxPaintEvent &evt)
 {
@@ -67,17 +63,9 @@ void wxImagePanel::paintNow()
 	render(dc);
 }
 
-/*
- * Here we do the actual rendering. I put it in a separate
- * method so that it can work no matter what type of DC
- * (e.g. wxPaintDC or wxClientDC) is used.
- */
 void wxImagePanel::render(wxDC&dc)
 {
 	std::cout << "redrawn\n";
-	dc.DrawBitmap( d_mode == ORIG ? d_orig :
-	               d_mode == GRAY ? d_gray :
-	               d_image
-	               , 0, 0, false );
+	dc.DrawBitmap( *d_image, 0, 0, false );
 }
 #endif
