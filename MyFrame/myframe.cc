@@ -4,6 +4,7 @@ enum
 {
 	ID_HELLO,
 	ID_GRAY,
+	// ID_EDGES,
 	ID_UNDO,
 	ID_REDO
 };
@@ -34,6 +35,8 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
 	menuEdit->AppendSeparator();
 	menuEdit->Append(ID_GRAY, "&Grayscale...\tCtrl-G", "Convert image to grayscale");
 	Bind(wxEVT_MENU, &MyFrame::OnGray, this, ID_GRAY);
+	// menuEdit->Append(ID_EDGES, "&Sobel...\tCtrl-E", "Sobel filter");
+	// Bind(wxEVT_MENU, &MyFrame::OnEdge, this, ID_EDGES);
 
 	// HELP MENU //
 	wxMenu *menuHelp = new wxMenu;

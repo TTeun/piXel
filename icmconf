@@ -7,7 +7,7 @@
 // ===================================================
 
     // Uncomment to clear the screen starting the compilation
-//#define CLS
+#define CLS
 
     // Uncomment to construct a library. Optionally use another name (don't
     // use lib or an extension like .a)

@@ -9,10 +9,23 @@ wxImagePanel::wxImagePanel(wxFrame*parent, wxString file, wxBitmapType format) :
 
 void wxImagePanel::paintEvent(wxPaintEvent &evt)
 {
-	// depending on your system you may need to look at double-buffered dcs
 	wxPaintDC dc(this);
 
 	render(dc);
+}
+
+// wxImage wxImagePanel::edge(){
+//  unsigned char *data = (unsigned char*)malloc(height() * width() * 3);
+//  data = d_image->GetData();
+//  for (size_t i = 0; i < 3 * width() * height(); i += 3)
+//      data[i] = 0;
+//  wxImage image(width(), height(), data, false);
+//  return image;
+// }
+
+void wxImagePanel::grayscale(wxImage *image)
+{
+	image->ConvertToGreyscale();
 }
 
 void wxImagePanel::paintNow()
@@ -23,13 +36,8 @@ void wxImagePanel::paintNow()
 	render(dc);
 }
 
-void wxImagePanel::render(wxDC&dc)
+void wxImagePanel::render(wxDC &dc)
 {
 	std::cout << "redrawn\n";
 	dc.DrawBitmap( *d_image, 0, 0, false );
-}
-
-wxImage wxImagePanel::grayscale()
-{
-	return d_image->ConvertToGreyscale();
 }

@@ -29,6 +29,7 @@ public:
 private:
 	void OnHello(wxCommandEvent &event);
 	void OnGray(wxCommandEvent &event);
+	// void OnEdge(wxCommandEvent &event);
 	void OnUndo(wxCommandEvent &event);
 	void OnRedo(wxCommandEvent &event);
 	void OnExit(wxCommandEvent &event);
@@ -41,7 +42,9 @@ class ActionList {
 	MyFrame *d_frame;
 public:
 	ActionList(MyFrame * frame);
-	void addAction(wxImage && newAction);
+	void addAction(wxImage &&newImage);
+	void addAction(void (*f)(wxImage *image));
+
 	void undo();
 	void redo();
 	void update();
@@ -62,38 +65,32 @@ inline void MyFrame::paintNow()
 	d_drawPane->paintNow();
 }
 
-inline void MyFrame::OnGray(wxCommandEvent &event)
-{
-	actionList->addAction(grayscale());
-}
+inline void MyFrame::OnGray(wxCommandEvent &event) {
+actionList->addAction(d_drawPane->grayscale); }
 
-inline void MyFrame::OnUndo(wxCommandEvent &event)
-{
+// inline void MyFrame::OnEdge(wxCommandEvent &event) {
+// actionList->addAction(d_drawPane->edge); }
+
+inline void MyFrame::OnUndo(wxCommandEvent &event){
 	actionList->undo();
 }
 
-inline void MyFrame::OnRedo(wxCommandEvent &event)
-{
+inline void MyFrame::OnRedo(wxCommandEvent &event){
 	actionList->redo();
 }
 
-inline void MyFrame::OnExit(wxCommandEvent &event)
-{
+inline void MyFrame::OnExit(wxCommandEvent &event){
 	Close( true );
 }
 
-inline void MyFrame::OnAbout(wxCommandEvent &event)
-{
+inline void MyFrame::OnAbout(wxCommandEvent &event){
 	wxMessageBox( "This is a wxWidgets' Hello world sample",
 	              "About Hello World", wxOK | wxICON_INFORMATION );
 }
-inline void MyFrame::OnHello(wxCommandEvent &event)
-{
+inline void MyFrame::OnHello(wxCommandEvent &event){
 	wxLogMessage("Hello world from wxWidgets!");
 }
 
-inline wxImagePanel *MyFrame::drawPane()
-{
-	return d_drawPane;
-}
+inline wxImagePanel *MyFrame::drawPane(){ return d_drawPane; }
+
 #endif
