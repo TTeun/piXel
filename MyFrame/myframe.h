@@ -64,7 +64,7 @@ inline void MyFrame::paintNow()
 
 inline void MyFrame::OnGray(wxCommandEvent &event)
 {
-	actionList->addAction(imageByVal().ConvertToGreyscale());
+	actionList->addAction(grayscale());
 }
 
 inline void MyFrame::OnUndo(wxCommandEvent &event)

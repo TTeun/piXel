@@ -11,14 +11,18 @@ class wxImagePanel : public wxPanel
 
 public:
 	wxImagePanel(wxFrame * parent, wxString file, wxBitmapType format);
-	void setImage(wxImage *newImage);
-	wxImage *image();
-	wxImage imageByVal();
+
 	void paintEvent(wxPaintEvent &evt);
 	void paintNow();
 
 	void render(wxDC &dc);
 	wxSize size();
+
+	void setImage(wxImage *newImage);
+
+	wxImage *image();
+	wxImage imageByVal();
+	wxImage grayscale();
 
 };
 

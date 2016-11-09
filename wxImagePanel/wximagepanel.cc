@@ -28,3 +28,8 @@ void wxImagePanel::render(wxDC&dc)
 	std::cout << "redrawn\n";
 	dc.DrawBitmap( *d_image, 0, 0, false );
 }
+
+wxImage wxImagePanel::grayscale()
+{
+	return d_image->ConvertToGreyscale();
+}
