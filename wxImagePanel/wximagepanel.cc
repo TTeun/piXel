@@ -23,9 +23,20 @@ void wxImagePanel::paintEvent(wxPaintEvent &evt)
 //  return image;
 // }
 
-void wxImagePanel::grayscale(wxImage *image)
+void wxImagePanel::grayscale(unsigned char*data, size_t width, size_t height)
 {
-	image->ConvertToGreyscale();
+	float coef[3] = {0.2126, 0.7152, 0.0722};
+	int res;
+
+	for (size_t index = 0; index != width * height * 3; index += 3)
+	{
+		res = 0;
+		for (size_t RGB = 0; RGB != 3; ++RGB)
+			res += coef[RGB] * data[index + RGB];
+		for (size_t RGB = 0; RGB != 3; ++RGB)
+			data[index + RGB] = res;
+	}
+
 }
 
 void wxImagePanel::paintNow()
