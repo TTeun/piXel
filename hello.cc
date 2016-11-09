@@ -19,7 +19,7 @@ bool MyApp::OnInit()
 	frame = new MyFrame(wxT("Hello wxDC"), wxPoint(50, 50), wxSize(800, 600));
 
 	// then simply create like this
-	frame->drawPane = new wxImagePanel( frame, wxT("ass.jpg"), wxBITMAP_TYPE_JPEG);
+	frame->drawPane = new wxImagePanel( frame, wxT("valve.jpg"), wxBITMAP_TYPE_JPEG);
 	wxSize imSize = frame->drawPane->size();
 	sizer->Add(frame->drawPane, 1, wxEXPAND);
 
