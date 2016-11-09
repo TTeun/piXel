@@ -1,6 +1,9 @@
 #ifndef MY__FRAME__
 #define MY__FRAME__
 
+#include <wx/wx.h>
+#include <wx/sizer.h>
+#include <wx/image.h>
 #include <wx/utils.h>
 #include <vector>
 class ActionList;
@@ -32,26 +35,6 @@ private:
 	void OnExit(wxCommandEvent &event);
 	void OnAbout(wxCommandEvent &event);
 };
-
-inline wxImagePanel *MyFrame::drawPane()
-{
-	return d_drawPane;
-}
-
-
-inline void MyFrame::setImage(wxImage *newImage)
-{
-	d_drawPane->setImage(newImage);
-}
-inline void MyFrame::paintNow()
-{
-	d_drawPane->paintNow();
-}
-inline wxImage MyFrame::imageByVal()
-{
-	return d_drawPane->imageByVal();
-}
-
 
 class ActionList {
 	std::vector<wxImage> d_imageList;
@@ -97,6 +80,24 @@ enum
 	ID_UNDO,
 	ID_REDO
 };
+
+inline wxImagePanel *MyFrame::drawPane()
+{
+	return d_drawPane;
+}
+
+inline void MyFrame::setImage(wxImage *newImage)
+{
+	d_drawPane->setImage(newImage);
+}
+inline void MyFrame::paintNow()
+{
+	d_drawPane->paintNow();
+}
+inline wxImage MyFrame::imageByVal()
+{
+	return d_drawPane->imageByVal();
+}
 
 MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
                  wxString file,
@@ -169,5 +170,6 @@ void MyFrame::OnHello(wxCommandEvent &event)
 {
 	wxLogMessage("Hello world from wxWidgets!");
 }
+
 
 #endif
