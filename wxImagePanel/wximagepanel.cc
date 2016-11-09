@@ -1,5 +1,14 @@
 #include "wximagepanel.h"
 
+int min(int a, int b)
+{
+	return a < b ? a : b;
+}
+
+int max(int a, int b)
+{
+	return a > b ? a : b;
+}
 wxImagePanel::wxImagePanel(wxFrame*parent, wxString file, wxBitmapType format) :
 	wxPanel(parent),
 	d_image(new wxImage(file, format))
@@ -14,16 +23,45 @@ void wxImagePanel::paintEvent(wxPaintEvent &evt)
 	render(dc);
 }
 
-// wxImage wxImagePanel::edge(){
-//  unsigned char *data = (unsigned char*)malloc(height() * width() * 3);
-//  data = d_image->GetData();
-//  for (size_t i = 0; i < 3 * width() * height(); i += 3)
-//      data[i] = 0;
-//  wxImage image(width(), height(), data, false);
-//  return image;
-// }
+unsigned char *wxImagePanel::edge(unsigned char *data, size_t width, size_t height)
+{
+	// grayscale(data, width, height);
+	unsigned char *newData = (unsigned char*)malloc(width * height * 3);
+	int minR = 1000, minG = 1000, minB = 1000, maxR = 0, maxG = 0, maxB = 0;
 
-void wxImagePanel::grayscale(unsigned char*data, size_t width, size_t height)
+	for (size_t row = 1; row != height - 1; ++row)
+		for (size_t col = 1; col != width - 1; ++col)
+			for (size_t RGB = 0; RGB != 3; ++RGB)
+				newData[row * width * 3 + col * 3 + RGB] =
+				    data[row * width * 3 + col * 3 + RGB]
+				    - data[row * width * 3 + col * 3 + RGB - 3];
+
+	for (size_t row = 1; row != height - 1; ++row)
+		for (size_t col = 1; col != width - 1; ++col)
+		{
+			minR = min(minR, newData[row * width * 3 + col * 3]);
+			maxR = max(maxR, newData[row * width * 3 + col * 3]);
+			minG = min(minG, newData[row * width * 3 + col * 3 + 1]);
+			maxG = max(maxG, newData[row * width * 3 + col * 3 + 1]);
+			minB = min(minB, newData[row * width * 3 + col * 3 + 2]);
+			maxB = max(maxB, newData[row * width * 3 + col * 3 + 2]);
+		}
+	for (size_t row = 1; row != height - 1; ++row)
+		for (size_t col = 1; col != width - 1; ++col)
+		{
+			newData[row * width * 3 + col * 3] += minR;
+			newData[row * width * 3 + col * 3] *= 255 / (float)(maxR - minR);
+			newData[row * width * 3 + col * 3 + 1] += minG;
+			newData[row * width * 3 + col * 3 + 1] *= 255 / (float)(maxG - minG);
+			newData[row * width * 3 + col * 3 + 2] += minB;
+			newData[row * width * 3 + col * 3 + 2] *= 255 / (float)(maxB - minB);
+		}
+
+	// grayscale(newData, width, height);
+	return newData;
+}
+
+unsigned char *wxImagePanel::grayscale(unsigned char*data, size_t width, size_t height)
 {
 	float coef[3] = {0.2126, 0.7152, 0.0722};
 	int res;
@@ -36,7 +74,7 @@ void wxImagePanel::grayscale(unsigned char*data, size_t width, size_t height)
 		for (size_t RGB = 0; RGB != 3; ++RGB)
 			data[index + RGB] = res;
 	}
-
+	return data;
 }
 
 void wxImagePanel::paintNow()

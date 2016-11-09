@@ -29,7 +29,7 @@ public:
 private:
 	void OnHello(wxCommandEvent &event);
 	void OnGray(wxCommandEvent &event);
-	// void OnEdge(wxCommandEvent &event);
+	void OnEdge(wxCommandEvent &event);
 	void OnUndo(wxCommandEvent &event);
 	void OnRedo(wxCommandEvent &event);
 	void OnExit(wxCommandEvent &event);
@@ -43,7 +43,7 @@ class ActionList {
 public:
 	ActionList(MyFrame * frame);
 	void addAction(wxImage && newImage);
-	void addAction(void (*f)(unsigned char*data, size_t width, size_t height));
+	void addAction(unsigned char* (*f)(unsigned char*data, size_t width, size_t height));
 
 	void undo();
 	void redo();
@@ -70,8 +70,10 @@ inline void MyFrame::OnGray(wxCommandEvent &event)
 	actionList->addAction(d_drawPane->grayscale);
 }
 
-// inline void MyFrame::OnEdge(wxCommandEvent &event) {
-// actionList->addAction(d_drawPane->edge); }
+inline void MyFrame::OnEdge(wxCommandEvent &event)
+{
+	actionList->addAction(d_drawPane->edge);
+}
 
 inline void MyFrame::OnUndo(wxCommandEvent &event)
 {

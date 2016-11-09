@@ -22,8 +22,8 @@ public:
 	size_t height();
 
 	void setImage(wxImage *newImage); wxImage *image(); wxImage imageByVal();
-	static void grayscale(unsigned char*data, size_t width, size_t height);
-	// wxImage edge();
+	static unsigned char *grayscale(unsigned char*data, size_t width, size_t height);
+	static unsigned char *edge(unsigned char*data, size_t width, size_t height);
 
 };
 

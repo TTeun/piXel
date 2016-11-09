@@ -14,7 +14,7 @@ void ActionList::undo()
 	}
 }
 
-void ActionList::addAction(void (*f)(unsigned char*, size_t, size_t))
+void ActionList::addAction(unsigned char* (*f)(unsigned char*, size_t, size_t))
 {
 	size_t width = (d_imageList[d_actionSize - 1]).GetWidth();
 	size_t height = (d_imageList[d_actionSize - 1]).GetHeight();
@@ -26,7 +26,7 @@ void ActionList::addAction(void (*f)(unsigned char*, size_t, size_t))
 	for (size_t i = 0; i < width * height * 3; ++i)
 		newData[i] = data[i];
 
-	f(newData, width, height);
+	newData = f(newData, width, height);
 	wxImage image(width, height, newData);
 
 
