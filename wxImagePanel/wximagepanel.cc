@@ -25,16 +25,31 @@ void wxImagePanel::paintEvent(wxPaintEvent &evt)
 
 unsigned char *wxImagePanel::edge(unsigned char *data, size_t width, size_t height)
 {
-	// grayscale(data, width, height);
 	unsigned char *newData = (unsigned char*)malloc(width * height * 3);
+
 	int minR = 1000, minG = 1000, minB = 1000, maxR = 0, maxG = 0, maxB = 0;
 
 	for (size_t row = 1; row != height - 1; ++row)
 		for (size_t col = 1; col != width - 1; ++col)
 			for (size_t RGB = 0; RGB != 3; ++RGB)
-				newData[row * width * 3 + col * 3 + RGB] =
-				    data[row * width * 3 + col * 3 + RGB]
-				    - data[row * width * 3 + col * 3 + RGB - 3];
+			{
+				if (data[row * width * 3 + col * 3 + RGB] >
+				    data[row * width * 3 + col * 3 + RGB - 3])
+					newData[row * width * 3 + col * 3 +
+					        RGB] = data[row * width * 3 + col * 3 + RGB]
+					               - data[row * width * 3 + col * 3 +
+					                      RGB - 3];
+				else
+				{
+					newData[row * width * 3 + col * 3 + RGB] = data[row * width * 3 + col * 3 +
+					                                                RGB -
+					                                                3] -
+					                                           data[row * width * 3 + col * 3 +
+					                                                RGB];
+
+
+				}
+			}
 
 	for (size_t row = 1; row != height - 1; ++row)
 		for (size_t col = 1; col != width - 1; ++col)
